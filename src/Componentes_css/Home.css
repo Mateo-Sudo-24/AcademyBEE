@@ -1,0 +1,134 @@
+/* Contenedor general */
+.home-container {
+  min-height: 100vh;
+  background: url('../../public/Imagen/Fondo1.jpg') no-repeat center center fixed;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+/* Contenido principal */
+.content-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1000px;
+  width: 100%;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 15px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Sección de texto */
+.text-section {
+  width: 55%;
+  text-align: left;
+}
+
+/* Estilo del título */
+.main-title {
+  font-size: 2.5rem;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+/* Estilo del subtítulo */
+.slogan {
+  font-size: 1.2rem;
+  color: #f7b500;
+  margin-bottom: 1rem;
+}
+
+/* Descripción */
+.description {
+  font-size: 1rem;
+  color: #444;
+  margin-bottom: 1.5rem;
+}
+
+/* Contenedor de los botones */
+.buttons-container {
+  display: flex;
+  gap: 1rem;
+}
+
+/* Botones de acción */
+.action-button {
+  background: #ffcc00;
+  color: black;
+  font-size: 1.2rem;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.action-button:hover {
+  background: #ffdb4d;
+}
+
+/* Sección de imagen */
+.image-section {
+  width: 40%;
+  display: flex;
+  justify-content: center;
+}
+
+.abeja-img {
+  width: 100%;
+  max-width: 350px;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .content-wrapper {
+    flex-direction: column;
+    text-align: center;
+    padding: 1.5rem;
+  }
+
+  .text-section {
+    width: 100%;
+    text-align: center;
+  }
+
+  .buttons-container {
+    justify-content: center;
+  }
+
+  .image-section {
+    width: 100%;
+    margin-top: 1rem;
+  }
+
+  .abeja-img {
+    max-width: 250px;
+  }
+}
+
+@media (max-width: 600px) {
+  .main-title {
+    font-size: 2rem;
+  }
+
+  .slogan, .description {
+    font-size: 1rem;
+  }
+
+  .action-button {
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+  }
+
+  .abeja-img {
+    max-width: 200px;
+  }
+}

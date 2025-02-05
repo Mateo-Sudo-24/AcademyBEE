@@ -1,0 +1,77 @@
+/* Contenedor de la página */
+.cursos-container {
+    min-height: 100vh;
+    background: url('../../public/Imagen/Fondo1.jpg') no-repeat center center fixed;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 2rem;
+    text-align: left;
+  }
+  
+  /* Título */
+  .cursos-title {
+    font-size: 2rem;
+    color: white;
+    margin-bottom: 1.5rem;
+  }
+  
+  /* Contenedor de botones */
+  .cursos-botones {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-left: 2rem; /* Para que no esté pegado al margen izquierdo */
+  }
+  
+  /* Botones de cursos */
+  .course-btn {
+    width: 250px;
+    padding: 0.75rem;
+    background: #ffcc00;
+    color: black;
+    border: none;
+    border-radius: 50px; /* Bordes redondeados */
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: background 0.3s ease;
+    text-align: center;
+  }
+  
+  .course-btn:hover {
+    background: #ffdb4d;
+  }
+  
+  /* Botón exclusivo del Plan Normal */
+  .premium-btn {
+    width: 250px;
+    padding: 0.75rem;
+    background: red;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: background 0.3s ease;
+  }
+  
+  .premium-btn:hover {
+    background: darkred;
+  }
+  
+  /* Responsive para móviles */
+  @media (max-width: 768px) {
+    .cursos-container {
+      align-items: center;
+      text-align: center;
+    }
+  
+    .cursos-botones {
+      margin-left: 0;
+    }
+  }
+  

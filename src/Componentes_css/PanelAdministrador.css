@@ -1,0 +1,241 @@
+/* 📌 Contenedor Principal */
+.dashboard-admin {
+  min-height: 100vh;
+  background: url('../../public/Imagen/Fondo3.jpg') no-repeat center center fixed;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+}
+
+/* 📌 Encabezado */
+.dashboard-header {
+  background: rgba(255, 255, 255, 0.9);
+  color: black;
+  padding: 2rem;
+  border-radius: 10px;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.dashboard-header h1 {
+  margin: 0;
+  font-size: 2rem;
+}
+
+/* 📌 Controles */
+.controles {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 1.5rem;
+  border-radius: 10px;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* 📌 Barra de búsqueda */
+.busqueda-input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 5px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.busqueda-input:focus {
+  outline: none;
+  border-color: var(--primary-blue);
+}
+
+/* 📌 Filtros */
+.filtros {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.filtro-btn {
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--primary-blue);
+  background: transparent;
+  color: var(--primary-blue);
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.filtro-btn:hover {
+  background: var(--primary-blue);
+  color: white;
+}
+
+.filtro-btn.activo {
+  background: var(--primary-blue);
+  color: white;
+}
+
+/* 📌 Lista de Usuarios */
+.usuarios-lista {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+/* 📌 Tarjeta de Usuario */
+.usuario-card {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.usuario-info h3 {
+  margin: 0;
+  color: var(--primary-blue);
+}
+
+/* 📌 Badges de Roles */
+.role-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 15px;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.role-badge.admin {
+  background: #fce7f3;
+  color: #9d174d;
+}
+
+.role-badge.profesor {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.role-badge.plan-normal {
+  background: #e0f2fe;
+  color: #0369a1;
+}
+
+.role-badge.plan-social {
+  background: #fff3cd;
+  color: #856404;
+}
+
+/* 📌 Botones */
+.ver-detalles-btn {
+  width: 100%;
+  padding: 0.75rem;
+  background: var(--primary-blue);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.ver-detalles-btn:hover {
+  background: var(--secondary-blue);
+}
+
+.eliminar-btn {
+  width: 100%;
+  padding: 0.75rem;
+  background: #ef4444;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.eliminar-btn:hover {
+  background: #dc2626;
+}
+
+/* 📌 Modal de Detalles */
+.modal-detalles {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 10px;
+  padding: 2rem;
+  width: 100%;
+  max-width: 700px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.modal-content h2 {
+  color: var(--primary-blue);
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid var(--primary-blue);
+  padding-bottom: 0.5rem;
+}
+
+/* 📌 Mensajes */
+.mensaje {
+  margin-top: 1rem;
+  padding: 1rem;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.mensaje.success {
+  background: #d4edda;
+  color: #155724;
+}
+
+.mensaje.error {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+/* 📌 Responsive */
+@media (max-width: 1024px) {
+  .usuarios-lista {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard-admin {
+    padding: 1rem;
+  }
+
+  .dashboard-header {
+    padding: 1.5rem;
+  }
+
+  .dashboard-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .modal-content {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .usuarios-lista {
+    grid-template-columns: 1fr;
+  }
+}

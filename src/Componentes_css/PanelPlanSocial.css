@@ -1,0 +1,114 @@
+/* 📌 Contenedor principal */
+.panel-plan-social {
+  min-height: 100vh;
+  background: url('../../public/Imagen/Fondo3.jpg') no-repeat center center fixed;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+}
+
+/* Barra superior */
+.top-bar {
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  text-align: center;
+  padding: 1rem;
+  font-size: 1.5rem;
+}
+
+/* Contenido principal */
+.panel-content {
+  display: flex;
+  justify-content: space-between;
+  padding: 2rem;
+}
+
+/* Lista de cursos (Izquierda) */
+.courses-list {
+  width: 25%;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.course-btn {
+  width: 100%;
+  padding: 0.75rem;
+  background: #ffcc00;
+  color: black;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: bold;
+  transition: background 0.3s ease;
+}
+
+.course-btn:hover {
+  background: #ffdb4d;
+}
+
+/* Dashboard (Derecha) */
+.dashboard {
+  width: 65%;
+  background: rgba(255, 255, 255, 0.8);
+  padding: 1.5rem;
+  border-radius: 10px;
+}
+
+/* Calendario */
+.calendar-section {
+  margin-bottom: 1rem;
+}
+
+/* Progresión de cursos */
+.progress-section {
+  margin-bottom: 1rem;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 20px;
+  background: #ddd;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: #28a745;
+}
+
+/* Lista de clases */
+.course-classes ul {
+  list-style: none;
+  padding: 0;
+}
+
+.course-classes li {
+  margin: 5px 0;
+}
+
+.course-classes a {
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
+}
+
+.course-classes a:hover {
+  color: blue;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .panel-content {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .courses-list, .dashboard {
+    width: 90%;
+    margin-bottom: 1rem;
+  }
+}

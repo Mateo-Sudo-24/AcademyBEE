@@ -47,6 +47,9 @@ const Login = () => {
         case 'PlanNormal':
           navigate('/plan-normal');
           break;
+        case 'admin':
+          navigate('/panel-administrador');
+          break;
         default:
           setError('Rol no válido.');
       }

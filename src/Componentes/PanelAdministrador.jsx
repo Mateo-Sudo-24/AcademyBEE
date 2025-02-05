@@ -1,13 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { db } from '../firebase/config';
-import {
-  collection,
-  getDocs,
-  doc,
-  getDoc,
-  deleteDoc
-} from 'firebase/firestore';
+import { collection, getDocs, doc, getDoc, deleteDoc } from 'firebase/firestore';
 import '../Componentes_css/PanelAdministrador.css';
 import LogoutButton from './LogoutButton';
 
@@ -20,29 +14,27 @@ const PanelAdministrador = () => {
   const [error, setError] = useState('');
   const [userRole, setUserRole] = useState(null);
 
-  // 🔄 Obtener el rol del usuario actual desde Firestore
   useEffect(() => {
     const obtenerRolUsuario = async () => {
-      if (!currentUser) return;
+      if (!currentUser?.uid) return;
 
       try {
         const userRef = doc(db, 'users', currentUser.uid);
         const userDoc = await getDoc(userRef);
 
         if (userDoc.exists()) {
-          setUserRole(userDoc.data().role || '');
+          setUserRole(userDoc.data().role || 'sin-rol');
         } else {
-          setError('No se encontró el usuario en Firestore.');
+          throw new Error('Usuario no encontrado en Firestore.');
         }
-      } catch (error) {
-        setError('Error al obtener el rol del usuario.');
+      } catch (err) {
+        setError(`Error al obtener el rol: ${err.message}`);
       }
     };
 
     obtenerRolUsuario();
   }, [currentUser]);
 
-  // 🔄 Cargar usuarios solo si el usuario es admin
   useEffect(() => {
     if (userRole !== 'admin') return;
 
@@ -50,14 +42,14 @@ const PanelAdministrador = () => {
       try {
         const usersRef = collection(db, 'users');
         const usersSnapshot = await getDocs(usersRef);
-        let usuariosData = usersSnapshot.docs.map(doc => ({
+        const usuariosData = usersSnapshot.docs.map(doc => ({
           id: doc.id,
           ...doc.data()
         }));
 
         setUsuarios(usuariosData);
-      } catch (error) {
-        setError('Error al cargar los datos.');
+      } catch (err) {
+        setError(`Error al cargar usuarios: ${err.message}`);
       } finally {
         setLoading(false);
       }
@@ -66,33 +58,30 @@ const PanelAdministrador = () => {
     cargarUsuarios();
   }, [userRole]);
 
-  // ✅ Función para eliminar usuario
   const eliminarUsuario = async (userId) => {
     if (!window.confirm('¿Está seguro de eliminar este usuario?')) return;
 
     try {
       await deleteDoc(doc(db, 'users', userId));
-      setUsuarios(usuarios.filter(u => u.id !== userId));
-    } catch (error) {
-      setError('Error al eliminar el usuario.');
+      setUsuarios(prevUsuarios => prevUsuarios.filter(u => u.id !== userId));
+    } catch (err) {
+      setError(`Error al eliminar usuario: ${err.message}`);
     }
   };
 
-  // ✅ Filtros y búsqueda de usuarios
   const usuariosFiltrados = usuarios.filter(usuario => {
     const cumpleFiltro = filtro === 'todos' || usuario.role === filtro;
-    const cumpleBusqueda = 
+    const cumpleBusqueda =
       usuario.nombre?.toLowerCase().includes(busqueda.toLowerCase()) ||
       usuario.email?.toLowerCase().includes(busqueda.toLowerCase());
+
     return cumpleFiltro && cumpleBusqueda;
   });
 
-  // 🔄 Mostrar mensaje de carga si aún no se ha obtenido el rol
   if (userRole === null) {
     return <div className="loading">Cargando datos...</div>;
   }
 
-  // ❌ Bloqueo de acceso si el usuario no es admin
   if (userRole !== 'admin') {
     return <div className="error-acceso">Acceso no autorizado</div>;
   }
@@ -106,29 +95,24 @@ const PanelAdministrador = () => {
       </div>
 
       <div className="controles">
-        <div className="busqueda">
-          <input
-            type="text"
-            placeholder="Buscar por nombre o email..."
-            value={busqueda}
-            onChange={(e) => setBusqueda(e.target.value)}
-            className="busqueda-input"
-          />
-        </div>
+        <input
+          type="text"
+          placeholder="Buscar por nombre o email..."
+          value={busqueda}
+          onChange={(e) => setBusqueda(e.target.value)}
+          className="busqueda-input"
+        />
 
         <div className="filtros">
-          <button className={`filtro-btn ${filtro === 'todos' ? 'activo' : ''}`} onClick={() => setFiltro('todos')}>
-            Todos
-          </button>
-          <button className={`filtro-btn ${filtro === 'profesor' ? 'activo' : ''}`} onClick={() => setFiltro('profesor')}>
-            Profesores
-          </button>
-          <button className={`filtro-btn ${filtro === 'planNormal' ? 'activo' : ''}`} onClick={() => setFiltro('planNormal')}>
-            Plan Normal
-          </button>
-          <button className={`filtro-btn ${filtro === 'planSocial' ? 'activo' : ''}`} onClick={() => setFiltro('planSocial')}>
-            Plan Social
-          </button>
+          {['todos', 'profesor', 'planNormal', 'planSocial'].map(tipo => (
+            <button
+              key={tipo}
+              className={`filtro-btn ${filtro === tipo ? 'activo' : ''}`}
+              onClick={() => setFiltro(tipo)}
+            >
+              {tipo.charAt(0).toUpperCase() + tipo.slice(1)}
+            </button>
+          ))}
         </div>
       </div>
 

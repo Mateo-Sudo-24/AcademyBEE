@@ -19,20 +19,18 @@ const PanelAdministrador = () => {
   const [filtro, setFiltro] = useState('todos');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const [userRole, setUserRole] = useState(null); // ✅ Se guarda el rol del usuario admin
+  const [userRole, setUserRole] = useState(null);
 
-  // 🔄 Obtener rol del usuario desde Firestore al iniciar sesión
   useEffect(() => {
     if (!currentUser) return;
 
-    const cargarDatosUsuario = async () => {
+    const obtenerRolUsuario = async () => {
       try {
         const userRef = doc(db, 'users', currentUser.uid);
         const userDoc = await getDoc(userRef);
 
         if (userDoc.exists()) {
-          const userData = userDoc.data();
-          setUserRole(userData.role || ''); // ✅ Se obtiene el rol del usuario
+          setUserRole(userDoc.data().role || '');
         } else {
           setError('No se encontró la información del usuario.');
         }
@@ -43,30 +41,19 @@ const PanelAdministrador = () => {
       }
     };
 
-    cargarDatosUsuario();
+    obtenerRolUsuario();
   }, [currentUser]);
 
-  // 🔄 Cargar todos los usuarios
   useEffect(() => {
     const cargarUsuarios = async () => {
-      try {
-        if (userRole !== 'admin') {
-          setError('Acceso no autorizado.');
-          return;
-        }
+      if (userRole !== 'admin') return;
 
+      try {
         const usersRef = collection(db, 'users');
         const usersSnapshot = await getDocs(usersRef);
-        let usuariosData = usersSnapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data()
-        }));
-
-        setUsuarios(usuariosData);
+        setUsuarios(usersSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
       } catch (error) {
         setError('Error al cargar los datos.');
-      } finally {
-        setLoading(false);
       }
     };
 
@@ -75,7 +62,6 @@ const PanelAdministrador = () => {
     }
   }, [userRole]);
 
-  // ✅ Función para eliminar usuario
   const eliminarUsuario = async (userId) => {
     if (!window.confirm('¿Está seguro de eliminar este usuario?')) return;
 
@@ -87,21 +73,16 @@ const PanelAdministrador = () => {
     }
   };
 
-  // ✅ Filtros y búsqueda de usuarios
   const usuariosFiltrados = usuarios.filter(usuario => {
-    const cumpleFiltro = filtro === 'todos' || usuario.role === filtro;
-    const cumpleBusqueda = 
-      usuario.nombre?.toLowerCase().includes(busqueda.toLowerCase()) ||
-      usuario.email?.toLowerCase().includes(busqueda.toLowerCase());
-    return cumpleFiltro && cumpleBusqueda;
+    return (filtro === 'todos' || usuario.role === filtro) &&
+      (usuario.nombre?.toLowerCase().includes(busqueda.toLowerCase()) ||
+      usuario.email?.toLowerCase().includes(busqueda.toLowerCase()));
   });
 
-  // 🔄 Mostrar mensaje de carga si aún no se obtiene el rol
   if (loading) {
     return <div className="loading">Cargando datos...</div>;
   }
 
-  // ❌ Bloqueo de acceso si el usuario no es admin
   if (userRole !== 'admin') {
     return <div className="error-acceso">Acceso no autorizado</div>;
   }
@@ -126,18 +107,10 @@ const PanelAdministrador = () => {
         </div>
 
         <div className="filtros">
-          <button className={`filtro-btn ${filtro === 'todos' ? 'activo' : ''}`} onClick={() => setFiltro('todos')}>
-            Todos
-          </button>
-          <button className={`filtro-btn ${filtro === 'profesor' ? 'activo' : ''}`} onClick={() => setFiltro('profesor')}>
-            Profesores
-          </button>
-          <button className={`filtro-btn ${filtro === 'planNormal' ? 'activo' : ''}`} onClick={() => setFiltro('planNormal')}>
-            Plan Normal
-          </button>
-          <button className={`filtro-btn ${filtro === 'planSocial' ? 'activo' : ''}`} onClick={() => setFiltro('planSocial')}>
-            Plan Social
-          </button>
+          <button className={`filtro-btn ${filtro === 'todos' ? 'activo' : ''}`} onClick={() => setFiltro('todos')}>Todos</button>
+          <button className={`filtro-btn ${filtro === 'profesor' ? 'activo' : ''}`} onClick={() => setFiltro('profesor')}>Profesores</button>
+          <button className={`filtro-btn ${filtro === 'planNormal' ? 'activo' : ''}`} onClick={() => setFiltro('planNormal')}>Plan Normal</button>
+          <button className={`filtro-btn ${filtro === 'planSocial' ? 'activo' : ''}`} onClick={() => setFiltro('planSocial')}>Plan Social</button>
         </div>
       </div>
 
@@ -150,14 +123,9 @@ const PanelAdministrador = () => {
               <div className="usuario-info">
                 <h3>{usuario.nombre} {usuario.apellido}</h3>
                 <p className="email">{usuario.email}</p>
-                <span className={`role-badge ${usuario.role}`}>
-                  {usuario.role}
-                </span>
+                <span className={`role-badge ${usuario.role}`}>{usuario.role}</span>
               </div>
-
-              <button className="eliminar-btn" onClick={() => eliminarUsuario(usuario.id)}>
-                Eliminar Usuario
-              </button>
+              <button className="eliminar-btn" onClick={() => eliminarUsuario(usuario.id)}>Eliminar Usuario</button>
             </div>
           ))
         ) : (

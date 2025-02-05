@@ -1,95 +1,34 @@
 import React, { useState } from 'react';
-import Navbar from '../Navbar';
-import { jsPDF } from 'jspdf';
-import '../Componentes_css/CursosRequest.css';
+import Navbar from "../Componentes/Navbar";
+import { jsPDF } from "jspdf";
+import "../Componentes_css/CursosRequest.css";
 
 const CursoOfimatica = () => {
-  const [progreso, setProgreso] = useState([false, false, false]);
-  const [respuestas, setRespuestas] = useState(["", "", ""]);
-  const [certificadoDisponible, setCertificadoDisponible] = useState(false);
+  const [progress, setProgress] = useState(0);
 
-  const preguntas = [
-    { texto: "¿Cuál es el software más usado para procesar textos?", respuesta: "word" },
-    { texto: "¿Cómo se llama la hoja de cálculo de Microsoft?", respuesta: "excel" },
-    { texto: "¿Qué programa se usa para presentaciones en diapositivas?", respuesta: "powerpoint" },
-  ];
-
-  const manejarRespuesta = (index, valor) => {
-    const nuevasRespuestas = [...respuestas];
-    nuevasRespuestas[index] = valor.toLowerCase();
-    setRespuestas(nuevasRespuestas);
-
-    if (nuevasRespuestas[index] === preguntas[index].respuesta) {
-      const nuevoProgreso = [...progreso];
-      nuevoProgreso[index] = true;
-      setProgreso(nuevoProgreso);
-
-      if (nuevoProgreso.every((estado) => estado === true)) {
-        setCertificadoDisponible(true);
-      }
-    }
-  };
-
-  const generarCertificado = () => {
+  const generatePDF = () => {
     const doc = new jsPDF();
-    doc.setFontSize(22);
-    doc.text("Certificado de Finalización", 60, 40);
-    doc.setFontSize(16);
-    doc.text("BeeAcademy certifica que:", 60, 60);
-    doc.setFontSize(18);
-    doc.text("____________", 60, 80);
-    doc.setFontSize(16);
-    doc.text("Ha completado exitosamente el curso de Ofimática.", 60, 100);
-    doc.text("Fecha: " + new Date().toLocaleDateString(), 60, 120);
-    doc.text("Firma:", 60, 150);
-    doc.text("____________________", 60, 160);
-    doc.save("Certificado_Ofimatica.pdf");
+    doc.text("Certificado de Curso de Ofimática", 10, 10);
+    doc.save("certificado_ofimatica.pdf");
   };
 
   return (
     <div className="curso-container">
       <Navbar />
-      <h1 className="curso-titulo">Curso de Ofimática</h1>
+      <h1>Curso de Ofimática</h1>
+      <p>Aprende herramientas esenciales para la productividad.</p>
 
-      <div className="curso-content">
-        <div className="pasos-container">
-          <h2>Pasos para completar el curso</h2>
-          <ol>
-            {preguntas.map((pregunta, index) => (
-              <li key={index} className={`paso ${progreso[index] ? "completado" : ""}`}>
-                <p>{pregunta.texto}</p>
-                {!progreso[index] && (
-                  <input
-                    type="text"
-                    placeholder="Ingrese la respuesta"
-                    value={respuestas[index]}
-                    onChange={(e) => manejarRespuesta(index, e.target.value)}
-                  />
-                )}
-              </li>
-            ))}
-          </ol>
+      <div className="progress-section">
+        <h4>Progreso del curso</h4>
+        <div className="progress-bar">
+          <div className="progress-fill" style={{ width: `${progress}%` }}></div>
         </div>
-
-        <div className="videos-container">
-          <h2>Clases en Video</h2>
-          <iframe
-            width="560"
-            height="315"
-            src="https://www.youtube.com/embed/lcsY4k5BEps"
-            title="Video de Ofimática"
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          ></iframe>
-        </div>
+        <p>{progress}% completado</p>
       </div>
 
-      {certificadoDisponible && (
-        <button className="certificado-btn" onClick={generarCertificado}>
-          Obtener Certificado
-        </button>
-      )}
+      <button onClick={generatePDF} className="certificado-btn">
+        Descargar Certificado
+      </button>
     </div>
   );
 };

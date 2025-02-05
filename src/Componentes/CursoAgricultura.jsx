@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import Navbar from '../Navbar';
-import { jsPDF } from 'jspdf';
-import '../Componentes_css/CursosRequest.css';
+import React, { useState } from "react";
+import Navbar from "../Componentes/Navbar"; // ✅ Corrección de la ruta
+import { jsPDF } from "jspdf";
+import "../Componentes_css/CursosRequest.css";
 
 const CursoAgricultura = () => {
   const [progreso, setProgreso] = useState([false, false, false]);
@@ -9,9 +9,9 @@ const CursoAgricultura = () => {
   const [certificadoDisponible, setCertificadoDisponible] = useState(false);
 
   const preguntas = [
-    { texto: "¿Cuál es el principal nutriente del suelo para las plantas?", respuesta: "nitrógeno" },
-    { texto: "¿Qué método de riego es más eficiente para cultivos?", respuesta: "goteo" },
-    { texto: "¿Cómo se llama el proceso de preparar la tierra para sembrar?", respuesta: "labranza" },
+    { texto: "¿Cuál es el principal nutriente que necesitan las plantas?", respuesta: "nitrógeno" },
+    { texto: "¿Qué técnica de riego ayuda a ahorrar agua?", respuesta: "riego por goteo" },
+    { texto: "¿Qué es la rotación de cultivos?", respuesta: "alternar cultivos" },
   ];
 
   const manejarRespuesta = (index, valor) => {
@@ -76,7 +76,7 @@ const CursoAgricultura = () => {
           <iframe
             width="560"
             height="315"
-            src="https://www.youtube.com/embed/bzHogGH8c5s"
+            src="https://www.youtube.com/embed/X2ARiPXCvPU"
             title="Video de Agricultura"
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

@@ -15,16 +15,16 @@ import Registro from './Componentes/Registro';
 /* Paneles */
 import PanelProfesor from './Componentes/PanelProfesor';
 import PanelPlanSocial from './Componentes/PanelPlanSocial';
-import PanelPlanNormal from './Componentes/PanelPlanNormal'; // ✅ CORREGIDO: PanelPlanNormal en lugar de PlanNormal
+import PanelPlanNormal from './Componentes/PanelPlanNormal'; // ✅ Corrección aplicada
 import Cursos from './Componentes/Cursos';
 
 /* Cursos */
-import CursoSoldadura from './Componentes/Cursos/CursoSoldadura';
-import CursoAgricultura from './Componentes/Cursos/CursoAgricultura';
-import CursoGanaderia from './Componentes/Cursos/CursoGanaderia';
-import CursoAlfabetizacion from './Componentes/Cursos/CursoAlfabetizacion';
-import CursoMatematicas from './Componentes/Cursos/CursoMatematicas';
-import CursoOfimatica from './Componentes/Cursos/CursoOfimatica';
+import CursoSoldadura from './Componentes/CursoSoldadura';
+import CursoAgricultura from './Componentes/CursoAgricultura';
+import CursoGanaderia from './Componentes/CursoGanaderia';
+import CursoAlfabetizacion from './Componentes/CursoAlfabetizacion';
+import CursoMatematicas from './Componentes/CursoMatematicas';
+import CursoOfimatica from './Componentes/CursoOfimatica';
 
 function App() {
   return (
@@ -42,7 +42,7 @@ function App() {
           {/* Paneles */}
           <Route path="/panel-profesor" element={<PanelProfesor />} />
           <Route path="/panel-plan-social" element={<PanelPlanSocial />} />
-          <Route path="/panel-plan-normal" element={<PanelPlanNormal />} /> {/* ✅ Ruta corregida */}
+          <Route path="/panel-plan-normal" element={<PanelPlanNormal />} /> {/* ✅ Corrección aplicada */}
           <Route path="/cursos" element={<Cursos />} />
 
           {/* Cursos */}

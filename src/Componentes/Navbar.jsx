@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FaBee, FaBars, FaTimes } from 'react-icons/fa'; // Íconos de abeja, menú y cerrar
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBug, faBars, faTimes } from '@fortawesome/free-solid-svg-icons'; // ✅ faBug en lugar de faBee
 import '../Componentes_css/Navbar.css';
 
 const Navbar = () => {
@@ -10,13 +11,13 @@ const Navbar = () => {
     <nav className="navbar">
       {/* ✅ LOGO AHORA REDIRIGE A INICIO */}
       <Link to="/" className="navbar-logo" onClick={() => setMenuOpen(false)}>
-        <FaBee className="bee-icon" /> {/* Ícono de abeja */}
-        <span className="navbar-title">Brújula Vital</span>
+        <FontAwesomeIcon icon={faBug} className="bee-icon" /> {/* Se cambió faBee por faBug */}
+        <span className="navbar-title">BEE Academy</span>
       </Link>
 
       {/* Botón de menú hamburguesa */}
       <div className="menu-toggle" onClick={() => setMenuOpen(!menuOpen)}>
-        {menuOpen ? <FaTimes /> : <FaBars />}
+        <FontAwesomeIcon icon={menuOpen ? faTimes : faBars} />
       </div>
 
       {/* Menú de enlaces */}

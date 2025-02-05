@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Navbar from '../Navbar';
+import Navbar from "../Componentes/Navbar"; // ✅ Corrección de ruta
 import { jsPDF } from 'jspdf';
 import '../Componentes_css/CursosRequest.css';
 

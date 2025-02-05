@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import Navbar from '../Navbar';
-import { jsPDF } from 'jspdf';
-import '../Componentes_css/CursosRequest.css';
+import React, { useState } from "react";
+import Navbar from "../Componentes/Navbar"; // ✅ Corrección de ruta
+import { jsPDF } from "jspdf";
+import "../Componentes_css/CursosRequest.css";
 
 const CursoMatematicas = () => {
   const [progreso, setProgreso] = useState([false, false, false]);
@@ -9,9 +9,9 @@ const CursoMatematicas = () => {
   const [certificadoDisponible, setCertificadoDisponible] = useState(false);
 
   const preguntas = [
-    { texto: "¿Cuánto es 5 + 3?", respuesta: "8" },
-    { texto: "¿Cómo se llama la fórmula cuadrática?", respuesta: "ecuación cuadrática" },
-    { texto: "¿Cuántos lados tiene un hexágono?", respuesta: "6" },
+    { texto: "¿Cuál es la fórmula del área de un círculo?", respuesta: "πr²" },
+    { texto: "¿Cuánto es 5 factorial (5!)?", respuesta: "120" },
+    { texto: "¿Cuál es la raíz cuadrada de 144?", respuesta: "12" },
   ];
 
   const manejarRespuesta = (index, valor) => {
@@ -76,7 +76,7 @@ const CursoMatematicas = () => {
           <iframe
             width="560"
             height="315"
-            src="https://www.youtube.com/embed/UoBF9wLxYQo"
+            src="https://www.youtube.com/embed/O7O9EL8h65g"
             title="Video de Matemáticas"
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

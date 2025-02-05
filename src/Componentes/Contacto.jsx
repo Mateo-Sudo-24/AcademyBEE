@@ -7,18 +7,21 @@ const Contacto = () => {
       <div className="contacto-content">
         <h2 className="contacto-title">Contacto</h2>
         <div className="contacto-grid">
+          
+          {/* ✅ Información de Contacto */}
           <div className="contacto-card">
             <h3 className="card-title">Información de Contacto</h3>
             <div className="contact-item">
-              <div className="contact-icon">📞</div>
-              <a href="tel:+123456789" className="contact-link">(+593) 98-465-5005</a>
+              <span className="contact-icon">📞</span>
+              <a href="tel:+593998434399" className="contact-link">(+593) 99-843-4399</a>
             </div>
             <div className="contact-item">
-              <div className="contact-icon">✉️</div>
-              <a href="mailto:contacto@clinica.com" className="contact-link">gean.ponce@epn.edu.ec</a>
+              <span className="contact-icon">✉️</span>
+              <a href="mailto:danna.lopez@epn.edu.ec" className="contact-link">danna.lopez@epn.edu.ec</a>
             </div>
           </div>
 
+          {/* ✅ Ubicación con Google Maps */}
           <div className="contacto-card">
             <h3 className="card-title">Ubicación</h3>
             <p>Escuela Politécnica Nacional</p>
@@ -31,36 +34,36 @@ const Contacto = () => {
                 width="100%"
                 height="200"
                 style={{ border: 0 }}
-                allowFullScreen=""
+                allowFullScreen
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
               ></iframe>
             </div>
           </div>
 
+          {/* ✅ Redes Sociales */}
           <div className="contacto-card">
             <h3 className="card-title">Redes Sociales</h3>
             <div className="social-links">
               <a 
-                href="https://www.facebook.com/gean.patricio/" 
+                href="https://www.facebook.com/profile.php?id=61572511993965" 
                 className="social-link"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <span className="social-icon">👍</span>
-                Facebook
+                <span className="social-icon">👍</span> Facebook
               </a>
               <a 
-                href="https://www.instagram.com/duck_mc666/" 
+                href="https://www.instagram.com/danna.mishelle._/" 
                 className="social-link"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <span className="social-icon">📸</span>
-                Instagram
+                <span className="social-icon">📸</span> Instagram
               </a>
             </div>
           </div>
+
         </div>
       </div>
     </div>

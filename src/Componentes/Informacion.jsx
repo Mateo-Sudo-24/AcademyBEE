@@ -5,40 +5,45 @@ const Informacion = () => {
   return (
     <div className="info-extra-container">
       <div className="info-extra-content">
-        <h2 className="info-extra-title">Información Adicional</h2>
+        <h2 className="info-extra-title">Información sobre BeeAcademy</h2>
         <div className="info-grid">
+          
+          {/* ✅ SECCIÓN DE CURSOS */}
           <div className="info-card">
-            <h3 className="section-title">Servicios</h3>
+            <h3 className="section-title">Cursos Disponibles</h3>
             <ul className="info-list">
-              <li className="info-item">Internamiento residencia</li>
-              <li className="info-item">Evaluación y diagnóstico </li>
-              <li className="info-item">Desintoxicación médica</li>
-              <li className="info-item">Terapia individual </li>
-              <li className="info-item">Terapia Grupal </li>
+              <li className="info-item">Curso de Soldadura</li>
+              <li className="info-item">Curso de Agricultura</li>
+              <li className="info-item">Curso de Ganadería</li>
+              <li className="info-item">Curso de Alfabetización</li>
+              <li className="info-item">Curso de Ofimática</li>
             </ul>
           </div>
           
+          {/* ✅ SECCIÓN DE RECURSOS EDUCATIVOS */}
           <div className="info-card">
-            <h3 className="section-title">Alojamiento y Cuidado</h3>
+            <h3 className="section-title">Recursos de Aprendizaje</h3>
             <ul className="info-list">
-              <li className="info-item">Centro de día </li>
-              <li className="info-item">Seguimiento post-tratamiento</li>
-              <li className="info-item">Asistencia nutricional </li>
-              <li className="info-item">Atención 24/7</li>
-              <li className="info-item">Visitas Familiares</li>
+              <li className="info-item">Materiales de lectura en PDF</li>
+              <li className="info-item">Clases en video interactivas</li>
+              <li className="info-item">Tutorías en línea</li>
+              <li className="info-item">Certificados de finalización</li>
+              <li className="info-item">Foros de discusión</li>
             </ul>
           </div>
           
+          {/* ✅ SECCIÓN DE SOPORTE Y COMUNIDAD */}
           <div className="info-card">
-            <h3 className="section-title">Apoyo y Rehabilitación Social</h3>
+            <h3 className="section-title">Apoyo y Comunidad</h3>
             <ul className="info-list">
-              <li className="info-item">Reintegración social </li>
-              <li className="info-item">Educación y capacitación</li>
-              <li className="info-item">Actividades recreativas</li>
-              <li className="info-item">Apoyo espiritual</li>
-              <li className="info-item">Grupos de autoayuda</li>
+              <li className="info-item">Acceso a comunidad de aprendizaje</li>
+              <li className="info-item">Grupos de estudio colaborativos</li>
+              <li className="info-item">Eventos y seminarios web</li>
+              <li className="info-item">Asesoramiento profesional</li>
+              <li className="info-item">Oportunidades de voluntariado</li>
             </ul>
           </div>
+
         </div>
       </div>
     </div>

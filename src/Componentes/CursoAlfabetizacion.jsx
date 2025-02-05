@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import Navbar from '../Navbar';
-import { jsPDF } from 'jspdf';
-import '../Componentes_css/CursosRequest.css';
+import React, { useState } from "react";
+import Navbar from "../Componentes/Navbar"; // ✅ Corrección de ruta
+import { jsPDF } from "jspdf";
+import "../Componentes_css/CursosRequest.css";
 
 const CursoAlfabetizacion = () => {
   const [progreso, setProgreso] = useState([false, false, false]);
@@ -9,9 +9,9 @@ const CursoAlfabetizacion = () => {
   const [certificadoDisponible, setCertificadoDisponible] = useState(false);
 
   const preguntas = [
-    { texto: "¿Cuántas letras tiene el alfabeto español?", respuesta: "27" },
     { texto: "¿Cuál es la primera letra del abecedario?", respuesta: "a" },
-    { texto: "¿Cómo se llama el signo que indica el final de una oración?", respuesta: "punto" },
+    { texto: "¿Cuántas vocales tiene el español?", respuesta: "5" },
+    { texto: "¿Qué palabra significa lo contrario de 'grande'?", respuesta: "pequeño" },
   ];
 
   const manejarRespuesta = (index, valor) => {
@@ -76,7 +76,7 @@ const CursoAlfabetizacion = () => {
           <iframe
             width="560"
             height="315"
-            src="https://www.youtube.com/embed/70wnYNpVwMw"
+            src="https://www.youtube.com/embed/4R5BzkZsS40"
             title="Video de Alfabetización"
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

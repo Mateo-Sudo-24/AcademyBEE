@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import Navbar from '../Navbar';
-import { jsPDF } from 'jspdf';
-import '../Componentes_css/CursosRequest.css';
+import React, { useState } from "react";
+import Navbar from "../Componentes/Navbar"; // ✅ Corrección de la ruta
+import { jsPDF } from "jspdf";
+import "../Componentes_css/CursosRequest.css";
 
 const CursoSoldadura = () => {
   const [progreso, setProgreso] = useState([false, false, false]);
@@ -9,9 +9,9 @@ const CursoSoldadura = () => {
   const [certificadoDisponible, setCertificadoDisponible] = useState(false);
 
   const preguntas = [
-    { texto: "¿Cuál es el equipo principal de seguridad en la soldadura?", respuesta: "casco" },
-    { texto: "¿Qué tipo de soldadura usa gas como protección?", respuesta: "mig" },
-    { texto: "¿Qué metal se usa comúnmente en soldadura estructural?", respuesta: "acero" },
+    { texto: "¿Cuál es el gas más utilizado en la soldadura MIG?", respuesta: "argón" },
+    { texto: "¿Qué equipo es necesario para la soldadura por arco?", respuesta: "electrodo" },
+    { texto: "¿Qué medida de seguridad es obligatoria en la soldadura?", respuesta: "careta" },
   ];
 
   const manejarRespuesta = (index, valor) => {
@@ -76,7 +76,7 @@ const CursoSoldadura = () => {
           <iframe
             width="560"
             height="315"
-            src="https://www.youtube.com/embed/YU94p4DJH3g"
+            src="https://www.youtube.com/embed/4zUePmv5Nww"
             title="Video de Soldadura"
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

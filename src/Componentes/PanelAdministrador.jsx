@@ -5,6 +5,7 @@ import {
   collection,
   getDocs,
   doc,
+  getDoc,
   deleteDoc
 } from 'firebase/firestore';
 import '../Componentes_css/PanelAdministrador.css';
@@ -17,17 +18,33 @@ const PanelAdministrador = () => {
   const [filtro, setFiltro] = useState('todos');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [userRole, setUserRole] = useState(null);
 
-  // ✅ Quemar el usuario como admin si su email es admin@gmail.com
-  const userRole = currentUser?.email === 'admin@gmail.com' ? 'admin' : '';
+  // 🔄 Obtener el rol del usuario actual desde Firestore
+  useEffect(() => {
+    const obtenerRolUsuario = async () => {
+      if (!currentUser) return;
+
+      try {
+        const userRef = doc(db, 'users', currentUser.uid);
+        const userDoc = await getDoc(userRef);
+
+        if (userDoc.exists()) {
+          setUserRole(userDoc.data().role || '');
+        } else {
+          setError('No se encontró el usuario en Firestore.');
+        }
+      } catch (error) {
+        setError('Error al obtener el rol del usuario.');
+      }
+    };
+
+    obtenerRolUsuario();
+  }, [currentUser]);
 
   // 🔄 Cargar usuarios solo si el usuario es admin
   useEffect(() => {
-    if (userRole !== 'admin') {
-      setError('Acceso no autorizado.');
-      setLoading(false);
-      return;
-    }
+    if (userRole !== 'admin') return;
 
     const cargarUsuarios = async () => {
       try {
@@ -69,6 +86,11 @@ const PanelAdministrador = () => {
       usuario.email?.toLowerCase().includes(busqueda.toLowerCase());
     return cumpleFiltro && cumpleBusqueda;
   });
+
+  // 🔄 Mostrar mensaje de carga si aún no se ha obtenido el rol
+  if (userRole === null) {
+    return <div className="loading">Cargando datos...</div>;
+  }
 
   // ❌ Bloqueo de acceso si el usuario no es admin
   if (userRole !== 'admin') {

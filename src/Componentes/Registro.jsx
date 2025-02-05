@@ -19,7 +19,7 @@ const Registro = () => {
     nombre: '',
     apellido: '',
     telefono: '',
-    role: '',
+    role: '',  // Estado para el rol seleccionado
   });
 
   const handleChange = (e) => {
@@ -95,6 +95,13 @@ const Registro = () => {
     }
   };
 
+  // Función para seleccionar el rol y cerrar el modal
+  const handleRoleSelection = (selectedRole) => {
+    console.log('Rol seleccionado:', selectedRole); // Verifica el valor seleccionado
+    setFormData({ ...formData, role: selectedRole });
+    setIsModalOpen(false);  // Cerrar el modal automáticamente
+  };
+
   return (
     <div className="registro-container">
       <div className="registro-content">
@@ -115,19 +122,26 @@ const Registro = () => {
           <div className="modal">
             <div className="modal-content">
               <h3>Seleccione su rol:</h3>
-              <button className="role-btn" onClick={() => setFormData({ ...formData, role: 'Profesor' })}>
+              <button className="role-btn" onClick={() => handleRoleSelection('Profesor')}>
                 Profesor
               </button>
-              <button className="role-btn" onClick={() => setFormData({ ...formData, role: 'PlanSocial' })}>
+              <button className="role-btn" onClick={() => handleRoleSelection('PlanSocial')}>
                 Plan Social
               </button>
-              <button className="role-btn" onClick={() => setFormData({ ...formData, role: 'PlanNormal' })}>
+              <button className="role-btn" onClick={() => handleRoleSelection('PlanNormal')}>
                 Plan Normal
               </button>
               <button className="close-modal-btn" onClick={() => setIsModalOpen(false)}>
                 Cerrar
               </button>
             </div>
+          </div>
+        )}
+
+        {/* Mostrar el rol seleccionado */}
+        {formData.role && (
+          <div className="role-selected">
+            <p><strong>Rol seleccionado:</strong> {formData.role}</p>
           </div>
         )}
 

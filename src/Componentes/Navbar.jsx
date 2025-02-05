@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBug, faBars, faTimes } from '@fortawesome/free-solid-svg-icons'; // ✅ faBug en lugar de faBee
+import { faBug, faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
 import '../Componentes_css/Navbar.css';
 
 const Navbar = () => {
@@ -9,9 +9,9 @@ const Navbar = () => {
 
   return (
     <nav className="navbar">
-      {/* ✅ LOGO AHORA REDIRIGE A INICIO */}
+      {/* ✅ LOGO REDIRIGE A INICIO */}
       <Link to="/" className="navbar-logo" onClick={() => setMenuOpen(false)}>
-        <FontAwesomeIcon icon={faBug} className="bee-icon" /> {/* Se cambió faBee por faBug */}
+        <FontAwesomeIcon icon={faBug} className="bee-icon" />
         <span className="navbar-title">BEE Academy</span>
       </Link>
 
@@ -26,7 +26,10 @@ const Navbar = () => {
         <Link to="/mision-vision" className="nav-link" onClick={() => setMenuOpen(false)}>Misión y Visión</Link>
         <Link to="/informacion" className="nav-link" onClick={() => setMenuOpen(false)}>Información</Link>
         <Link to="/contacto" className="nav-link" onClick={() => setMenuOpen(false)}>Contacto</Link>
-        <Link to="/registro" className="nav-link" onClick={() => setMenuOpen(false)}>Registro</Link>
+
+        {/* ✅ Se agregó la clase `register-button` */}
+        <Link to="/registro" className="nav-link register-button" onClick={() => setMenuOpen(false)}>Registro</Link>
+        <Link to="/login" className="nav-link login-button" onClick={() => setMenuOpen(false)}>Login</Link>
       </div>
     </nav>
   );

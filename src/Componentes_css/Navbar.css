@@ -1,4 +1,4 @@
-/* 📌 Fondo con `Fondo3.jpg` */
+/* 📌 Fondo con Fondo3.jpg */
 .navbar {
     background: url('../../public/Imagen/Fondo3.jpg') no-repeat center center fixed;
     background-size: cover;
@@ -13,12 +13,12 @@
     z-index: 1000;
 }
 
-/* 📌 Logo con ícono de abeja */
+/* 📌 Logotipo con ícono de abeja */
 .navbar-logo {
     display: flex;
     align-items: center;
     gap: 10px;
-    color: white; /* Logo en blanco */
+    color: white; /* Logotipo en blanco */
     font-size: 1.5rem;
     font-weight: bold;
 }
@@ -29,9 +29,10 @@
     color: white;
 }
 
-/* 📌 Estilos de los enlaces del navbar */
+/* 📌 Estilos de los enlaces de la barra de navegación */
 .navbar-links {
     display: flex;
+    align-items: center; /* 📌 Asegura que todo esté alineado verticalmente */
     gap: 20px;
 }
 
@@ -41,10 +42,34 @@
     font-size: 1.2rem;
     font-weight: bold;
     transition: color 0.3s ease-in-out;
+    padding: 10px 15px; /* 📌 Ajusta el padding para igualar la altura */
 }
 
 .nav-link:hover {
     color: yellow;
+}
+
+/* 📌 ESTILO UNIFICADO PARA BOTONES DE REGISTRO E INICIAR SESIÓN */
+.register-button, .login-button {
+    background-color: yellow;
+    color: black;
+    border-radius: 5px;
+    padding: 12px 20px; /* 📌 Asegurar que los botones sean un poco más grandes */
+    font-weight: bold;
+    text-align: center;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.register-button:hover, .login-button:hover {
+    background-color: #ffaa00; /* Un tono más oscuro al pasar el mouse */
+}
+
+/* 📌 Asegurar que todos los enlaces tengan la misma altura */
+.nav-link, .register-button, .login-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px; /* 📌 Ajustar la altura para alinear correctamente */
 }
 
 /* 📌 MENÚ HAMBURGUESA */
@@ -60,7 +85,6 @@
     .menu-toggle {
         display: block; /* Mostrar solo en móviles */
     }
-
     .navbar-links {
         display: none; /* Ocultar enlaces en móviles */
         flex-direction: column;
@@ -72,14 +96,18 @@
         text-align: center;
         padding: 1rem 0;
     }
-
     .navbar-links.active {
         display: flex; /* Mostrar el menú cuando está activo */
     }
-
     .nav-link {
         display: block;
         padding: 1rem;
         font-size: 1.5rem;
+    }
+    /* 📌 Ajuste de botones en móvil */
+    .register-button, .login-button {
+        width: 80%; /* Que ocupe más espacio */
+        text-align: center;
+        margin: 5px auto;
     }
 }

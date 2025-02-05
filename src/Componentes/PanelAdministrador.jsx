@@ -13,7 +13,7 @@ import {
 import '../Componentes_css/PanelAdministrador.css';
 import LogoutButton from './LogoutButton'; // ✅ Importación del botón de logout
 
-const DashboardAdmin = () => {
+const PanelAdministrador = () => {  // ✅ Cambio de nombre correcto
 
   const { currentUser } = useAuth();
   const [usuarios, setUsuarios] = useState([]);
@@ -21,9 +21,8 @@ const DashboardAdmin = () => {
   const [filtro, setFiltro] = useState('todos');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const [detalleUsuario, setDetalleUsuario] = useState(null);
 
-  // Cargar todos los usuarios y sus relaciones
+  // Cargar todos los usuarios
   useEffect(() => {
     const cargarUsuarios = async () => {
       try {
@@ -41,44 +40,10 @@ const DashboardAdmin = () => {
           const userData = userDoc.data();
           const userId = userDoc.id;
 
-          // Si es un paciente, buscar su familiar y doctor
-          if (userData.role === 'paciente') {
-            // Buscar familiar
-            const relacionesRef = collection(db, 'relaciones');
-            const relacionQuery = query(relacionesRef, where('pacienteId', '==', userId));
-            const relacionSnapshot = await getDocs(relacionQuery);
-            
-            let familiarData = null;
-            if (!relacionSnapshot.empty) {
-              const familiarId = relacionSnapshot.docs[0].data().familiarId;
-              const familiarDoc = await getDoc(doc(db, 'users', familiarId));
-              if (familiarDoc.exists()) {
-                familiarData = familiarDoc.data();
-              }
-            }
-
-            // Buscar citas y doctor
-            const citasRef = collection(db, 'citas');
-            const citasQuery = query(citasRef, where('pacienteId', '==', userId));
-            const citasSnapshot = await getDocs(citasQuery);
-            const citas = citasSnapshot.docs.map(doc => ({
-              id: doc.id,
-              ...doc.data(),
-              fecha: doc.data().fecha.toDate()
-            }));
-
-            usuariosData.push({
-              id: userId,
-              ...userData,
-              familiar: familiarData,
-              citas: citas
-            });
-          } else {
-            usuariosData.push({
-              id: userId,
-              ...userData
-            });
-          }
+          usuariosData.push({
+            id: userId,
+            ...userData
+          });
         }
 
         setUsuarios(usuariosData);
@@ -93,31 +58,11 @@ const DashboardAdmin = () => {
     cargarUsuarios();
   }, [currentUser]);
 
-  const eliminarUsuario = async (userId, role) => {
+  const eliminarUsuario = async (userId) => {
     if (!window.confirm('¿Está seguro de eliminar este usuario?')) return;
 
     try {
       await deleteDoc(doc(db, 'users', userId));
-      
-      // Si es un paciente, eliminar sus relaciones y citas
-      if (role === 'paciente') {
-        const relacionesRef = collection(db, 'relaciones');
-        const relacionQuery = query(relacionesRef, where('pacienteId', '==', userId));
-        const relacionSnapshot = await getDocs(relacionQuery);
-        
-        relacionSnapshot.docs.forEach(async (doc) => {
-          await deleteDoc(doc.ref);
-        });
-
-        const citasRef = collection(db, 'citas');
-        const citasQuery = query(citasRef, where('pacienteId', '==', userId));
-        const citasSnapshot = await getDocs(citasQuery);
-        
-        citasSnapshot.docs.forEach(async (doc) => {
-          await deleteDoc(doc.ref);
-        });
-      }
-
       setUsuarios(usuarios.filter(u => u.id !== userId));
     } catch (error) {
       console.error('Error al eliminar usuario:', error);
@@ -133,12 +78,12 @@ const DashboardAdmin = () => {
     return cumpleFiltro && cumpleBusqueda;
   });
 
-  if (!currentUser || currentUser.email !== 'admin@gmail.com') {
+  if (!currentUser || currentUser.role !== 'admin') {
     return <div className="error-acceso">Acceso no autorizado</div>;
   }
 
   return (
-    <div className="dashboard-admin">
+    <div className="panel-administrador">
       <div className="dashboard-header">
         <h1>Panel de Administración</h1>
         <p>Gestión de Usuarios y Registros</p>
@@ -164,22 +109,22 @@ const DashboardAdmin = () => {
             Todos
           </button>
           <button
-            className={`filtro-btn ${filtro === 'paciente' ? 'activo' : ''}`}
-            onClick={() => setFiltro('paciente')}
+            className={`filtro-btn ${filtro === 'profesor' ? 'activo' : ''}`}
+            onClick={() => setFiltro('profesor')}
           >
-            Pacientes
+            Profesores
           </button>
           <button
-            className={`filtro-btn ${filtro === 'doctor' ? 'activo' : ''}`}
-            onClick={() => setFiltro('doctor')}
+            className={`filtro-btn ${filtro === 'planNormal' ? 'activo' : ''}`}
+            onClick={() => setFiltro('planNormal')}
           >
-            Doctores
+            Plan Normal
           </button>
           <button
-            className={`filtro-btn ${filtro === 'familiar' ? 'activo' : ''}`}
-            onClick={() => setFiltro('familiar')}
+            className={`filtro-btn ${filtro === 'planSocial' ? 'activo' : ''}`}
+            onClick={() => setFiltro('planSocial')}
           >
-            Familiares
+            Plan Social
           </button>
         </div>
       </div>
@@ -202,7 +147,7 @@ const DashboardAdmin = () => {
 
               <button
                 className="eliminar-btn"
-                onClick={() => eliminarUsuario(usuario.id, usuario.role)}
+                onClick={() => eliminarUsuario(usuario.id)}
               >
                 Eliminar Usuario
               </button>
@@ -214,4 +159,4 @@ const DashboardAdmin = () => {
   );
 };
 
-export default DashboardAdmin;
+export default PanelAdministrador;

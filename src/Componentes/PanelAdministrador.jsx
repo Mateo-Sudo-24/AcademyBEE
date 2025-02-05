@@ -1,63 +1,81 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { db } from '../firebase/config';
-import { 
+import {
   collection,
   query,
-  where,
   getDocs,
   doc,
   deleteDoc,
   getDoc
 } from 'firebase/firestore';
 import '../Componentes_css/PanelAdministrador.css';
-import LogoutButton from './LogoutButton'; // ✅ Importación del botón de logout
+import LogoutButton from './LogoutButton';
 
-const PanelAdministrador = () => {  // ✅ Cambio de nombre correcto
-
+const PanelAdministrador = () => {
   const { currentUser } = useAuth();
   const [usuarios, setUsuarios] = useState([]);
   const [busqueda, setBusqueda] = useState('');
   const [filtro, setFiltro] = useState('todos');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [userRole, setUserRole] = useState(null); // ✅ Se guarda el rol del usuario admin
 
-  // Cargar todos los usuarios
+  // 🔄 Obtener rol del usuario desde Firestore al iniciar sesión
   useEffect(() => {
-    const cargarUsuarios = async () => {
+    if (!currentUser) return;
+
+    const cargarDatosUsuario = async () => {
       try {
-        // Verificar si el usuario tiene rol de admin
-        if (currentUser?.role !== 'admin') {
-          setError('Acceso no autorizado');
-          return;
-        }
+        const userRef = doc(db, 'users', currentUser.uid);
+        const userDoc = await getDoc(userRef);
 
-        const usersRef = collection(db, 'users');
-        const usersSnapshot = await getDocs(usersRef);
-        let usuariosData = [];
-
-        for (const userDoc of usersSnapshot.docs) {
+        if (userDoc.exists()) {
           const userData = userDoc.data();
-          const userId = userDoc.id;
-
-          usuariosData.push({
-            id: userId,
-            ...userData
-          });
+          setUserRole(userData.role || ''); // ✅ Se obtiene el rol del usuario
+        } else {
+          setError('No se encontró la información del usuario.');
         }
-
-        setUsuarios(usuariosData);
       } catch (error) {
-        console.error('Error al cargar usuarios:', error);
-        setError('Error al cargar los datos');
+        setError('Error al obtener la información del usuario.');
       } finally {
         setLoading(false);
       }
     };
 
-    cargarUsuarios();
+    cargarDatosUsuario();
   }, [currentUser]);
 
+  // 🔄 Cargar todos los usuarios
+  useEffect(() => {
+    const cargarUsuarios = async () => {
+      try {
+        if (userRole !== 'admin') {
+          setError('Acceso no autorizado.');
+          return;
+        }
+
+        const usersRef = collection(db, 'users');
+        const usersSnapshot = await getDocs(usersRef);
+        let usuariosData = usersSnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+
+        setUsuarios(usuariosData);
+      } catch (error) {
+        setError('Error al cargar los datos.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (userRole === 'admin') {
+      cargarUsuarios();
+    }
+  }, [userRole]);
+
+  // ✅ Función para eliminar usuario
   const eliminarUsuario = async (userId) => {
     if (!window.confirm('¿Está seguro de eliminar este usuario?')) return;
 
@@ -65,11 +83,11 @@ const PanelAdministrador = () => {  // ✅ Cambio de nombre correcto
       await deleteDoc(doc(db, 'users', userId));
       setUsuarios(usuarios.filter(u => u.id !== userId));
     } catch (error) {
-      console.error('Error al eliminar usuario:', error);
-      setError('Error al eliminar el usuario');
+      setError('Error al eliminar el usuario.');
     }
   };
 
+  // ✅ Filtros y búsqueda de usuarios
   const usuariosFiltrados = usuarios.filter(usuario => {
     const cumpleFiltro = filtro === 'todos' || usuario.role === filtro;
     const cumpleBusqueda = 
@@ -78,7 +96,13 @@ const PanelAdministrador = () => {  // ✅ Cambio de nombre correcto
     return cumpleFiltro && cumpleBusqueda;
   });
 
-  if (!currentUser || currentUser.role !== 'admin') {
+  // 🔄 Mostrar mensaje de carga si aún no se obtiene el rol
+  if (loading) {
+    return <div className="loading">Cargando datos...</div>;
+  }
+
+  // ❌ Bloqueo de acceso si el usuario no es admin
+  if (userRole !== 'admin') {
     return <div className="error-acceso">Acceso no autorizado</div>;
   }
 
@@ -87,7 +111,7 @@ const PanelAdministrador = () => {  // ✅ Cambio de nombre correcto
       <div className="dashboard-header">
         <h1>Panel de Administración</h1>
         <p>Gestión de Usuarios y Registros</p>
-        <LogoutButton /> {/* ✅ Se agregó el botón de logout en el header */}
+        <LogoutButton />
       </div>
 
       <div className="controles">
@@ -102,40 +126,26 @@ const PanelAdministrador = () => {  // ✅ Cambio de nombre correcto
         </div>
 
         <div className="filtros">
-          <button
-            className={`filtro-btn ${filtro === 'todos' ? 'activo' : ''}`}
-            onClick={() => setFiltro('todos')}
-          >
+          <button className={`filtro-btn ${filtro === 'todos' ? 'activo' : ''}`} onClick={() => setFiltro('todos')}>
             Todos
           </button>
-          <button
-            className={`filtro-btn ${filtro === 'profesor' ? 'activo' : ''}`}
-            onClick={() => setFiltro('profesor')}
-          >
+          <button className={`filtro-btn ${filtro === 'profesor' ? 'activo' : ''}`} onClick={() => setFiltro('profesor')}>
             Profesores
           </button>
-          <button
-            className={`filtro-btn ${filtro === 'planNormal' ? 'activo' : ''}`}
-            onClick={() => setFiltro('planNormal')}
-          >
+          <button className={`filtro-btn ${filtro === 'planNormal' ? 'activo' : ''}`} onClick={() => setFiltro('planNormal')}>
             Plan Normal
           </button>
-          <button
-            className={`filtro-btn ${filtro === 'planSocial' ? 'activo' : ''}`}
-            onClick={() => setFiltro('planSocial')}
-          >
+          <button className={`filtro-btn ${filtro === 'planSocial' ? 'activo' : ''}`} onClick={() => setFiltro('planSocial')}>
             Plan Social
           </button>
         </div>
       </div>
 
-      {loading ? (
-        <div className="loading">Cargando usuarios...</div>
-      ) : error ? (
-        <div className="error">{error}</div>
-      ) : (
-        <div className="usuarios-lista">
-          {usuariosFiltrados.map(usuario => (
+      {error && <div className="error">{error}</div>}
+
+      <div className="usuarios-lista">
+        {usuariosFiltrados.length > 0 ? (
+          usuariosFiltrados.map(usuario => (
             <div key={usuario.id} className="usuario-card">
               <div className="usuario-info">
                 <h3>{usuario.nombre} {usuario.apellido}</h3>
@@ -145,16 +155,15 @@ const PanelAdministrador = () => {  // ✅ Cambio de nombre correcto
                 </span>
               </div>
 
-              <button
-                className="eliminar-btn"
-                onClick={() => eliminarUsuario(usuario.id)}
-              >
+              <button className="eliminar-btn" onClick={() => eliminarUsuario(usuario.id)}>
                 Eliminar Usuario
               </button>
             </div>
-          ))}
-        </div>
-      )}
+          ))
+        ) : (
+          <p>No hay usuarios registrados.</p>
+        )}
+      </div>
     </div>
   );
 };
